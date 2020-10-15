@@ -222,42 +222,6 @@ Private Function cleanValue(val As String) As String
     
 End Function
 
-<<<<<<< HEAD
-<<updated of test 2
-    strSQL = "SELECT " & table & ".*"
-    strSQL = strSQL & " FROM " & table
-    strSQL = strSQL & " WHERE OrderNumber=" & OrderNumber
-
-    objRS2.Open strSQL
-    
-    Do While Not objRS2.EOF
-        thisLine = recordType
-        For i = 0 To objRS2.Fields.Count - 1
-            If IsNull(objRS2(i)) Then
-                val = ""
-            Else
-                val = objRS2(i)
-            End If
-            thisLine = thisLine & ",""" & cleanValue(val) & """"
-        Next i
-        Print #1, thisLine
-        objRS2.MoveNext
-    Loop
-    
-    objRS2.Close
-    
-End Sub
-
-Private Function cleanValue(val As String) As String
-    
-    val = Replace(val, Chr(34), "=")    'Double Quote
-    val = Replace(val, Chr(44), "-")    'Single Quote
-    val = Replace(val, Chr(39), ".")    'Comma
-    val = Replace(val, Chr(10), "/")    'Line Feed
-    val = Replace(val, Chr(13), "")     'Carriage Return
-    
-    cleanValue = val
-=======
     objRS.Open strSQL
     
     Do While Not objRS.EOF
@@ -305,6 +269,38 @@ Private Sub printFieldList(table As String, recordType As String)
     Next i
     Print #1, thisLine
     objRS2.Close
->>>>>>> b91a6f066fa80cfb27e469ac428add2c3ec82c69
+<<updated of test 2
+    strSQL = "SELECT " & table & ".*"
+    strSQL = strSQL & " FROM " & table
+    strSQL = strSQL & " WHERE OrderNumber=" & OrderNumber
 
+    objRS2.Open strSQL
+    
+    Do While Not objRS2.EOF
+        thisLine = recordType
+        For i = 0 To objRS2.Fields.Count - 1
+            If IsNull(objRS2(i)) Then
+                val = ""
+            Else
+                val = objRS2(i)
+            End If
+            thisLine = thisLine & ",""" & cleanValue(val) & """"
+        Next i
+        Print #1, thisLine
+        objRS2.MoveNext
+    Loop
+    
+    objRS2.Close
+    
+End Sub
+
+Private Function cleanValue(val As String) As String
+    
+    val = Replace(val, Chr(34), "=")    'Double Quote
+    val = Replace(val, Chr(44), "-")    'Single Quote
+    val = Replace(val, Chr(39), ".")    'Comma
+    val = Replace(val, Chr(10), "/")    'Line Feed
+    val = Replace(val, Chr(13), "")     'Carriage Return
+    
+    cleanValue = val
 
