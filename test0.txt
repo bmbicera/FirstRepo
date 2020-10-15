@@ -222,4 +222,52 @@ Private Function cleanValue(val As String) As String
     
 End Function
 
+    objRS.Open strSQL
+    
+    Do While Not objRS.EOF
+        
+        thisLine = "OH"
+        
+        For i = 0 To objRS.Fields.Count - 1
+            thisLine = thisLine & ",""" & objRS(i) & """"
+        Next i
+        
+        Print #1, thisLine
+        
+        Call printCustomer(objRS("CustomerNumber"))
+        Call printRecordType("OrderNotes", "ON", objRS("OrderNumber"))
+        Call printRecordType("OrderLineItem", "OL", objRS("OrderNumber"))
+        Call printRecordType("FinancialTransactions", "FT", objRS("OrderNumber"))
+        
+        objRS.MoveNext
+        
+        OrderCount = OrderCount + 1
+        
+        Debug.Print OrderCount
+        
+        DoEvents
+        
+    Loop
+    
+    objRS.Close
+    
+    Close #1
+    
+    sendToLog "   Exported " & OrderCount & " orders."
+    
+End Function
+
+Private Sub printFieldList(table As String, recordType As String)
+    
+    Dim thisLine As String
+    Dim i As Integer
+
+    objRS2.Open "SELECT TOP 1 * FROM " & table
+    thisLine = "Fields_" & recordType
+    For i = 0 To objRS2.Fields.Count - 1
+        thisLine = thisLine & ",""" & objRS2.Fields(i).name & """"
+    Next i
+    Print #1, thisLine
+    objRS2.Close
+
 
